@@ -1,28 +1,133 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Guy</title>
-
-    <link rel="stylesheet" href="style.css">
+    <title>منصة الاستثمار - CryptoInvest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <div class="container">
-        <h1>Crypto Guy</h1>
-        <p>منصة استثمار تجريبية</p>
-
-        <div class="card">
-            <h2>الرصيد</h2>
-            <h3 id="balance">0 USDT</h3>
-
-            <button id="deposit">إيداع</button>
-            <button id="withdraw">سحب</button>
+    <nav class="navbar glass-effect">
+        <div class="container">
+            <a href="index.html" class="brand">
+                <i class="fas fa-coins"></i>
+                <span>Crypto<span class="highlight">Invest</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">مميزات</a>
+                <a href="#plans">الباقات</a>
+                <a href="#about">عن الموقع</a>
+                <a href="login.html" class="btn btn-outline">تسجيل الدخول</a>
+                <a href="register.html" class="btn btn-primary">ابدأ الآن</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-    </div>
+    </nav>
 
-    <script src="script.js"></script>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>استثمر في العملات الرقمية <br><span class="highlight">واحصل على عوائد يومية</span></h1>
+                <p>منصة استثمارية آمنة تقدم عوائد يومية تصل إلى 5% مع نظام إحالة متقدم</p>
+                <div class="hero-buttons">
+                    <a href="register.html" class="btn btn-primary btn-large">
+                        <i class="fas fa-rocket"></i> ابدأ الاستثمار
+                    </a>
+                    <a href="#plans" class="btn btn-outline btn-large">
+                        <i class="fas fa-chart-line"></i> استكشف الباقات
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="number" id="totalUsers">1,250+</span>
+                        <span class="label">مستثمر نشط</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number" id="totalInvested">$2.5M</span>
+                        <span class="label">إجمالي الاستثمارات</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number" id="totalProfit">$850K</span>
+                        <span class="label">إجمالي الأرباح</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">✨ مميزات المنصة</h2>
+            <div class="features-grid">
+                <div class="feature-card glass-effect">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>آمنة وموثوقة</h3>
+                    <p>نظام أمان متقدم لحماية أموالك وبياناتك</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>أرباح يومية</h3>
+                    <p>احصل على أرباح يومية تصل إلى 5%</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <i class="fas fa-wallet"></i>
+                    <h3>سحب فوري</h3>
+                    <p>اسحب أرباحك في أي وقت وبكل سهولة</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <i class="fas fa-users"></i>
+                    <h3>نظام إحالة</h3>
+                    <p>اربح عمولات من إحالة الأصدقاء</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="plans" class="plans">
+        <div class="container">
+            <h2 class="section-title">🚀 باقات الاستثمار</h2>
+            <div class="plans-grid" id="plansGrid"></div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2>لماذا تختار منصتنا؟</h2>
+                <p>نحن نقدم منصة استثمارية متكاملة تجمع بين الأمان والربحية</p>
+                <div class="about-grid">
+                    <div class="about-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>دعم شبكة BEP-20</span>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>عوائد يومية مضمونة</span>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>سحب فوري وآمن</span>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>دعم فني 24/7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 CryptoInvest. جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
