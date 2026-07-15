@@ -11,6 +11,7 @@
             --text-dark: #333;
             --text-light: #666;
             --success-color: #28a745;
+            --danger-color: #dc3545;
             --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
@@ -20,6 +21,7 @@
             margin: 0;
             padding: 0;
             color: var(--text-dark);
+            padding-bottom: 80px; /* لترك مساحة للشريط السفلي */
         }
 
         /* الهيدر العلوي */
@@ -30,6 +32,9 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #eaeaea;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
@@ -38,66 +43,172 @@
             color: var(--primary-color);
         }
 
-        /* المحفظة والرصيد */
-        .balance-card {
-            background: linear-gradient(135deg, #007bff, #00c6ff);
+        /* الصفحات الفردية */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* === تصميم صفحة البيت (الرئيسية) === */
+        
+        /* كارت الرصيد الرئيسي */
+        .home-balance-card {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: white;
+            margin: 20px;
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .home-balance-card h3 {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+
+        .home-balance-amount {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        /* أزرار الإيداع والسحب السريعة */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px;
+        }
+
+        .action-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #eaeaea;
+        }
+
+        .action-card:active {
+            transform: scale(0.95);
+        }
+
+        .action-card .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .action-card .title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        /* لوحة بيانات الحساب والعمليات */
+        .data-section {
+            background-color: #fff;
             margin: 20px;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
-            text-align: center;
+            box-shadow: var(--card-shadow);
         }
 
-        .balance-card h3 {
-            margin: 0;
-            font-size: 14px;
-            opacity: 0.9;
+        .data-section h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            color: #111;
         }
 
-        .balance-amount {
-            font-size: 32px;
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .data-item {
+            background-color: var(--secondary-color);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .data-item .label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .data-item .value {
+            font-size: 16px;
             font-weight: bold;
-            margin: 10px 0;
+            color: var(--text-dark);
         }
 
-        .action-buttons {
+        /* قائمة العمليات الأخيرة */
+        .transactions-list {
+            margin-top: 20px;
+        }
+
+        .transaction-item {
             display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f1f1;
         }
 
-        .btn {
-            padding: 10px 25px;
-            border: none;
-            border-radius: 25px;
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .tx-info .tx-type {
+            font-weight: bold;
             font-size: 14px;
+        }
+
+        .tx-info .tx-date {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .tx-amount {
             font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 120px;
+            font-size: 14px;
         }
 
-        .btn-deposit {
-            background-color: #fff;
-            color: var(--primary-color);
+        .tx-amount.plus {
+            color: var(--success-color);
         }
 
-        .btn-withdraw {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+        .tx-amount.minus {
+            color: var(--danger-color);
         }
 
-        /* مستويات الـ VIP */
-        .section-title {
-            padding: 0 20px;
-            margin-top: 30px;
-            font-size: 18px;
-            font-weight: bold;
-        }
 
+        /* === تصميم صفحة الاستثمار (VIP) === */
         .vip-container {
             padding: 10px 20px;
             display: grid;
@@ -139,7 +250,6 @@
             font-weight: bold;
         }
 
-        /* حاسبة الاستثمار والمراهنة */
         .staking-box {
             background-color: #fff;
             margin: 20px;
@@ -200,130 +310,258 @@
             margin-top: 15px;
             box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
         }
+
+        /* === شريط التنقل السفلي === */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eaeaea;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            text-decoration: none;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: none;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
     </style>
 </head>
 <body>
 
     <!-- الهيدر -->
     <div class="header">
-        <div class="logo">Antier Clone</div>
-        <div style="font-size: 20px;">🔔</div>
+        <div class="logo" id="header-title">الرئيسية</div>
+        <div style="font-size: 20px; cursor: pointer;">🔔</div>
     </div>
 
-    <!-- بطاقة الرصيد -->
-    <div class="balance-card">
-        <h3>رصيد المحفظة الذكية</h3>
-        <div class="balance-amount" id="user-balance">100.00 USDT</div>
-        <div class="action-buttons">
-            <button class="btn btn-deposit">إعادة شحن</button>
-            <button class="btn btn-withdraw">سحب</button>
-        </div>
-    </div>
-
-    <!-- قسم مستويات الـ VIP -->
-    <div class="section-title">اختر مستوى الـ VIP للاستثمار</div>
-    <div class="vip-container">
-        <!-- مستوى VIP 1 -->
-        <div class="vip-card active" onclick="selectVip(this, 10, 100, 40)">
-            <div class="vip-name">VIP 1</div>
-            <div class="vip-range">10 - 100 USDT</div>
-            <div class="vip-profit">ربح 40% يومياً</div>
-        </div>
-        <!-- مستوى VIP 2 -->
-        <div class="vip-card" onclick="selectVip(this, 101, 500, 45)">
-            <div class="vip-name">VIP 2</div>
-            <div class="vip-range">101 - 500 USDT</div>
-            <div class="vip-profit">ربح 45% يومياً</div>
-        </div>
-        <!-- مستوى VIP 3 -->
-        <div class="vip-card" onclick="selectVip(this, 501, 2000, 50)">
-            <div class="vip-name">VIP 3</div>
-            <div class="vip-range">501 - 2000 USDT</div>
-            <div class="vip-profit">ربح 50% يومياً</div>
-        </div>
-    </div>
-
-    <!-- صندوق الاستثمار والمراهنة -->
-    <div class="staking-box">
-        <div class="input-group">
-            <label for="invest-amount">مبلغ الاستثمار (USDT)</label>
-            <input type="number" id="invest-amount" value="10" min="10" oninput="calculateProfit()">
+    <!-- ================= صفحة البيت (HOME PAGE) ================= -->
+    <div id="home-page" class="page active">
+        <!-- كارت الرصيد في الرئيسية -->
+        <div class="home-balance-card">
+            <h3>إجمالي الرصيد المتاح</h3>
+            <div class="home-balance-amount" id="main-balance">100.00 USDT</div>
+            <p style="margin: 0; font-size: 12px; opacity: 0.9;">الأرباح المحققة اليوم: <strong style="color: #4cd137;">+12.50 USDT</strong></p>
         </div>
 
-        <div class="profit-preview">
-            <div class="profit-row">
-                <span>المستوى المحدد:</span>
-                <span id="selected-vip-label">VIP 1</span>
+        <!-- أزرار الإيداع والسحب السريعة -->
+        <div class="quick-actions">
+            <div class="action-card" onclick="alert('واجهة الإيداع: انسخ عنوان المحفظة للتحويل')">
+                <div class="icon" style="color: var(--success-color);">📥</div>
+                <div class="title">شحن رصيد</div>
             </div>
-            <div class="profit-row">
-                <span>نسبة الربح اليومي:</span>
-                <span id="profit-percentage">40%</span>
-            </div>
-            <div class="profit-row">
-                <span>الربح المتوقع (خلال 24 ساعة):</span>
-                <span id="expected-profit" style="color: var(--success-color);">4.00 USDT</span>
+            <div class="action-card" onclick="alert('واجهة السحب: اكتب عنوان محفظتك لإستلام الأرباح')">
+                <div class="icon" style="color: var(--danger-color);">📤</div>
+                <div class="title">سحب الأرباح</div>
             </div>
         </div>
 
-        <button class="btn-submit" onclick="startStaking()">ابدأ المراهنة الآن</button>
+        <!-- لوحة البيانات والإحصائيات -->
+        <div class="data-section">
+            <h4>إحصائيات الحساب</h4>
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="label">إجمالي الإيداع</div>
+                    <div class="value">80.00 USDT</div>
+                </div>
+                <div class="data-item">
+                    <div class="label">إجمالي السحب</div>
+                    <div class="value">25.00 USDT</div>
+                </div>
+                <div class="data-item">
+                    <div class="label">عقود الاستثمار النشطة</div>
+                    <div class="value">1 عقد</div>
+                </div>
+                <div class="data-item">
+                    <div class="label">مستوى العضوية</div>
+                    <div class="value" style="color: var(--primary-color);">VIP 1</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- سجل العمليات الأخيرة -->
+        <div class="data-section">
+            <h4>سجل العمليات الأخيرة</h4>
+            <div class="transactions-list">
+                <div class="transaction-item">
+                    <div class="tx-info">
+                        <div class="tx-type">إيداع ناجح</div>
+                        <div class="tx-date">2026-07-14 10:30</div>
+                    </div>
+                    <div class="tx-amount plus">+50.00 USDT</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="tx-info">
+                        <div class="tx-type">سحب أرباح</div>
+                        <div class="tx-date">2026-07-13 14:15</div>
+                    </div>
+                    <div class="tx-amount minus">-15.00 USDT</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="tx-info">
+                        <div class="tx-type">أرباح مراهنة يومية</div>
+                        <div class="tx-date">2026-07-12 24:00</div>
+                    </div>
+                    <div class="tx-amount plus">+4.00 USDT</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= صفحة الاستثمار (INVEST PAGE) ================= -->
+    <div id="invest-page" class="page">
+        <div class="section-title" style="margin-top: 20px; padding: 0 20px;">اختر مستوى الـ VIP للاستثمار</div>
+        <div class="vip-container">
+            <!-- مستوى VIP 1 -->
+            <div class="vip-card active" onclick="selectVip(this, 10, 100, 40)">
+                <div class="vip-name">VIP 1</div>
+                <div class="vip-range">10 - 100 USDT</div>
+                <div class="vip-profit">ربح 40% يومياً</div>
+            </div>
+            <!-- مستوى VIP 2 -->
+            <div class="vip-card" onclick="selectVip(this, 101, 500, 45)">
+                <div class="vip-name">VIP 2</div>
+                <div class="vip-range">101 - 500 USDT</div>
+                <div class="vip-profit">ربح 45% يومياً</div>
+            </div>
+            <!-- مستوى VIP 3 -->
+            <div class="vip-card" onclick="selectVip(this, 501, 2000, 50)">
+                <div class="vip-name">VIP 3</div>
+                <div class="vip-range">501 - 2000 USDT</div>
+                <div class="vip-profit">ربح 50% يومياً</div>
+            </div>
+        </div>
+
+        <div class="staking-box">
+            <div class="input-group">
+                <label for="invest-amount">مبلغ الاستثمار (USDT)</label>
+                <input type="number" id="invest-amount" value="10" min="10" oninput="calculateProfit()">
+            </div>
+
+            <div class="profit-preview">
+                <div class="profit-row">
+                    <span>المستوى المحدد:</span>
+                    <span id="selected-vip-label">VIP 1</span>
+                </div>
+                <div class="profit-row">
+                    <span>نسبة الربح اليومي:</span>
+                    <span id="profit-percentage">40%</span>
+                </div>
+                <div class="profit-row">
+                    <span>الربح المتوقع (خلال 24 ساعة):</span>
+                    <span id="expected-profit" style="color: var(--success-color);">4.00 USDT</span>
+                </div>
+            </div>
+
+            <button class="btn-submit" onclick="startStaking()">ابدأ المراهنة الآن</button>
+        </div>
+    </div>
+
+    <!-- ================= شريط التنقل السفلي (BOTTOM NAV) ================= -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchPage('home-page', 'الرئيسية', this)">
+            <span class="nav-icon">🏠</span>
+            <span>البيت</span>
+        </button>
+        <button class="nav-item" onclick="switchPage('invest-page', 'الاستثمار والمراهنة', this)">
+            <span class="nav-icon">📈</span>
+            <span>الاستثمار</span>
+        </button>
     </div>
 
     <script>
-        // المتغيرات الافتراضية
+        // التبديل بين الصفحات
+        function switchPage(pageId, pageTitle, navElement) {
+            // إخفاء كل الصفحات
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // إظهار الصفحة المطلوبة
+            document.getElementById(pageId).classList.add('active');
+
+            // تحديث عنوان الهيدر
+            document.getElementById('header-title').innerText = pageTitle;
+
+            // تحديث حالة الأزرار في الشريط السفلي
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            navElement.classList.add('active');
+        }
+
+        // متغيرات الاستثمار (الـ VIP)
         let currentMin = 10;
         let currentMax = 100;
-        let currentRate = 40; // نسبة الربح 40%
+        let currentRate = 40;
 
-        // اختيار مستوى الـ VIP
         function selectVip(element, min, max, rate) {
-            // إزالة الكلاس النشط من جميع الكروت
             document.querySelectorAll('.vip-card').forEach(card => {
                 card.classList.remove('active');
             });
-            // إضافة النشاط للكارت الذي تم الضغط عليه
             element.classList.add('active');
 
-            // تحديث القيم
             currentMin = min;
             currentMax = max;
             currentRate = rate;
 
-            // تحديث قيمة المدخل الافتراضية لتناسب النطاق الأدنى
             const inputField = document.getElementById('invest-amount');
             inputField.value = min;
             inputField.min = min;
 
-            // تحديث النصوص في شاشة الحساب
             document.getElementById('selected-vip-label').innerText = element.querySelector('.vip-name').innerText;
             document.getElementById('profit-percentage').innerText = rate + "%";
 
             calculateProfit();
         }
 
-        // حساب الأرباح الحركية
         function calculateProfit() {
             const amount = parseFloat(document.getElementById('invest-amount').value) || 0;
             const profitSpan = document.getElementById('expected-profit');
 
             if (amount < currentMin) {
-                profitSpan.innerText = "المبلغ أقل من الحد الأدنى للمستوى";
+                profitSpan.innerText = "المبلغ أقل من الحد الأدنى";
                 profitSpan.style.color = "red";
                 return;
             }
 
             if (amount > currentMax) {
-                profitSpan.innerText = "المبلغ أعلى من الحد الأقصى للمستوى";
+                profitSpan.innerText = "المبلغ أعلى من الحد الأقصى";
                 profitSpan.style.color = "red";
                 return;
             }
 
-            // حساب الربح
             const profit = (amount * currentRate) / 100;
             profitSpan.innerText = profit.toFixed(2) + " USDT";
             profitSpan.style.color = "var(--success-color)";
         }
 
-        // الضغط على بدء المراهنة
         function startStaking() {
             const amount = parseFloat(document.getElementById('invest-amount').value) || 0;
             if (amount < currentMin || amount > currentMax) {
