@@ -1,133 +1,337 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الاستثمار - CryptoInvest</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>منصة الاستثمار الذكي</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #f4f7f6;
+            --text-dark: #333;
+            --text-light: #666;
+            --success-color: #28a745;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+        }
+
+        /* الهيدر العلوي */
+        .header {
+            background-color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* المحفظة والرصيد */
+        .balance-card {
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            color: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+            text-align: center;
+        }
+
+        .balance-card h3 {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 120px;
+        }
+
+        .btn-deposit {
+            background-color: #fff;
+            color: var(--primary-color);
+        }
+
+        .btn-withdraw {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* مستويات الـ VIP */
+        .section-title {
+            padding: 0 20px;
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .vip-container {
+            padding: 10px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .vip-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .vip-card.active {
+            border-color: var(--primary-color);
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .vip-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        .vip-range {
+            font-size: 12px;
+            color: var(--text-light);
+            margin: 5px 0;
+        }
+
+        .vip-profit {
+            font-size: 14px;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        /* حاسبة الاستثمار والمراهنة */
+        .staking-box {
+            background-color: #fff;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .profit-preview {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .profit-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .profit-row span:last-child {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar glass-effect">
-        <div class="container">
-            <a href="index.html" class="brand">
-                <i class="fas fa-coins"></i>
-                <span>Crypto<span class="highlight">Invest</span></span>
-            </a>
-            <div class="nav-links">
-                <a href="#features">مميزات</a>
-                <a href="#plans">الباقات</a>
-                <a href="#about">عن الموقع</a>
-                <a href="login.html" class="btn btn-outline">تسجيل الدخول</a>
-                <a href="register.html" class="btn btn-primary">ابدأ الآن</a>
-            </div>
-            <button class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </nav>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>استثمر في العملات الرقمية <br><span class="highlight">واحصل على عوائد يومية</span></h1>
-                <p>منصة استثمارية آمنة تقدم عوائد يومية تصل إلى 5% مع نظام إحالة متقدم</p>
-                <div class="hero-buttons">
-                    <a href="register.html" class="btn btn-primary btn-large">
-                        <i class="fas fa-rocket"></i> ابدأ الاستثمار
-                    </a>
-                    <a href="#plans" class="btn btn-outline btn-large">
-                        <i class="fas fa-chart-line"></i> استكشف الباقات
-                    </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="number" id="totalUsers">1,250+</span>
-                        <span class="label">مستثمر نشط</span>
-                    </div>
-                    <div class="stat">
-                        <span class="number" id="totalInvested">$2.5M</span>
-                        <span class="label">إجمالي الاستثمارات</span>
-                    </div>
-                    <div class="stat">
-                        <span class="number" id="totalProfit">$850K</span>
-                        <span class="label">إجمالي الأرباح</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- الهيدر -->
+    <div class="header">
+        <div class="logo">Antier Clone</div>
+        <div style="font-size: 20px;">🔔</div>
+    </div>
 
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">✨ مميزات المنصة</h2>
-            <div class="features-grid">
-                <div class="feature-card glass-effect">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>آمنة وموثوقة</h3>
-                    <p>نظام أمان متقدم لحماية أموالك وبياناتك</p>
-                </div>
-                <div class="feature-card glass-effect">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>أرباح يومية</h3>
-                    <p>احصل على أرباح يومية تصل إلى 5%</p>
-                </div>
-                <div class="feature-card glass-effect">
-                    <i class="fas fa-wallet"></i>
-                    <h3>سحب فوري</h3>
-                    <p>اسحب أرباحك في أي وقت وبكل سهولة</p>
-                </div>
-                <div class="feature-card glass-effect">
-                    <i class="fas fa-users"></i>
-                    <h3>نظام إحالة</h3>
-                    <p>اربح عمولات من إحالة الأصدقاء</p>
-                </div>
+    <!-- بطاقة الرصيد -->
+    <div class="balance-card">
+        <h3>رصيد المحفظة الذكية</h3>
+        <div class="balance-amount" id="user-balance">100.00 USDT</div>
+        <div class="action-buttons">
+            <button class="btn btn-deposit">إعادة شحن</button>
+            <button class="btn btn-withdraw">سحب</button>
+        </div>
+    </div>
+
+    <!-- قسم مستويات الـ VIP -->
+    <div class="section-title">اختر مستوى الـ VIP للاستثمار</div>
+    <div class="vip-container">
+        <!-- مستوى VIP 1 -->
+        <div class="vip-card active" onclick="selectVip(this, 10, 100, 40)">
+            <div class="vip-name">VIP 1</div>
+            <div class="vip-range">10 - 100 USDT</div>
+            <div class="vip-profit">ربح 40% يومياً</div>
+        </div>
+        <!-- مستوى VIP 2 -->
+        <div class="vip-card" onclick="selectVip(this, 101, 500, 45)">
+            <div class="vip-name">VIP 2</div>
+            <div class="vip-range">101 - 500 USDT</div>
+            <div class="vip-profit">ربح 45% يومياً</div>
+        </div>
+        <!-- مستوى VIP 3 -->
+        <div class="vip-card" onclick="selectVip(this, 501, 2000, 50)">
+            <div class="vip-name">VIP 3</div>
+            <div class="vip-range">501 - 2000 USDT</div>
+            <div class="vip-profit">ربح 50% يومياً</div>
+        </div>
+    </div>
+
+    <!-- صندوق الاستثمار والمراهنة -->
+    <div class="staking-box">
+        <div class="input-group">
+            <label for="invest-amount">مبلغ الاستثمار (USDT)</label>
+            <input type="number" id="invest-amount" value="10" min="10" oninput="calculateProfit()">
+        </div>
+
+        <div class="profit-preview">
+            <div class="profit-row">
+                <span>المستوى المحدد:</span>
+                <span id="selected-vip-label">VIP 1</span>
+            </div>
+            <div class="profit-row">
+                <span>نسبة الربح اليومي:</span>
+                <span id="profit-percentage">40%</span>
+            </div>
+            <div class="profit-row">
+                <span>الربح المتوقع (خلال 24 ساعة):</span>
+                <span id="expected-profit" style="color: var(--success-color);">4.00 USDT</span>
             </div>
         </div>
-    </section>
 
-    <section id="plans" class="plans">
-        <div class="container">
-            <h2 class="section-title">🚀 باقات الاستثمار</h2>
-            <div class="plans-grid" id="plansGrid"></div>
-        </div>
-    </section>
+        <button class="btn-submit" onclick="startStaking()">ابدأ المراهنة الآن</button>
+    </div>
 
-    <section id="about" class="about">
-        <div class="container">
-            <div class="about-content">
-                <h2>لماذا تختار منصتنا؟</h2>
-                <p>نحن نقدم منصة استثمارية متكاملة تجمع بين الأمان والربحية</p>
-                <div class="about-grid">
-                    <div class="about-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>دعم شبكة BEP-20</span>
-                    </div>
-                    <div class="about-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>عوائد يومية مضمونة</span>
-                    </div>
-                    <div class="about-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>سحب فوري وآمن</span>
-                    </div>
-                    <div class="about-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>دعم فني 24/7</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <script>
+        // المتغيرات الافتراضية
+        let currentMin = 10;
+        let currentMax = 100;
+        let currentRate = 40; // نسبة الربح 40%
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 CryptoInvest. جميع الحقوق محفوظة</p>
-        </div>
-    </footer>
+        // اختيار مستوى الـ VIP
+        function selectVip(element, min, max, rate) {
+            // إزالة الكلاس النشط من جميع الكروت
+            document.querySelectorAll('.vip-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            // إضافة النشاط للكارت الذي تم الضغط عليه
+            element.classList.add('active');
 
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
+            // تحديث القيم
+            currentMin = min;
+            currentMax = max;
+            currentRate = rate;
+
+            // تحديث قيمة المدخل الافتراضية لتناسب النطاق الأدنى
+            const inputField = document.getElementById('invest-amount');
+            inputField.value = min;
+            inputField.min = min;
+
+            // تحديث النصوص في شاشة الحساب
+            document.getElementById('selected-vip-label').innerText = element.querySelector('.vip-name').innerText;
+            document.getElementById('profit-percentage').innerText = rate + "%";
+
+            calculateProfit();
+        }
+
+        // حساب الأرباح الحركية
+        function calculateProfit() {
+            const amount = parseFloat(document.getElementById('invest-amount').value) || 0;
+            const profitSpan = document.getElementById('expected-profit');
+
+            if (amount < currentMin) {
+                profitSpan.innerText = "المبلغ أقل من الحد الأدنى للمستوى";
+                profitSpan.style.color = "red";
+                return;
+            }
+
+            if (amount > currentMax) {
+                profitSpan.innerText = "المبلغ أعلى من الحد الأقصى للمستوى";
+                profitSpan.style.color = "red";
+                return;
+            }
+
+            // حساب الربح
+            const profit = (amount * currentRate) / 100;
+            profitSpan.innerText = profit.toFixed(2) + " USDT";
+            profitSpan.style.color = "var(--success-color)";
+        }
+
+        // الضغط على بدء المراهنة
+        function startStaking() {
+            const amount = parseFloat(document.getElementById('invest-amount').value) || 0;
+            if (amount < currentMin || amount > currentMax) {
+                alert("يرجى إدخال مبلغ صحيح ضمن نطاق الـ VIP المحدد!");
+                return;
+            }
+            alert("تم بدء عملية الاستثمار بمبلغ " + amount + " USDT بنجاح!");
+        }
+    </script>
 </body>
 </html>
