@@ -1,0 +1,32 @@
+/* ===== دعم اللغة العربية RTL ===== */
+body {
+    direction: rtl;
+    text-align: right;
+}
+
+/* تعديلات إضافية للغة العربية */
+.nav-links a.active::after {
+    right: 0;
+    left: auto;
+}
+
+.footer-section a:hover {
+    padding-right: 8px;
+    padding-left: 0;
+}
+
+/* تحسين عرض النصوص العربية */
+* {
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* تعديلات الأيقونات للعربية */
+.fa-chevron-left,
+.fa-chevron-right {
+    transform: scaleX(-1);
+}
+
+/* تحسين المسافات للنصوص العربية */
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: 0;
+}
