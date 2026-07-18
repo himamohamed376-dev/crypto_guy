@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة الاستثمار العائلي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>استثمر لعائلتك</span>
+            </div>
+            
+            <h1>🚀 منصة الاستثمار العائلي</h1>
+            <p class="subtitle">الخادم يعمل بنجاح ✅</p>
+            
+            <div class="status-cards">
+                <div class="card">
+                    <i class="fas fa-server"></i>
+                    <h3>حالة الخادم</h3>
+                    <p class="status online">🟢 يعمل</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-database"></i>
+                    <h3>قاعدة البيانات</h3>
+                    <p class="status" id="dbStatus">⏳ جاري التحقق...</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-clock"></i>
+                    <h3>وقت التشغيل</h3>
+                    <p id="uptime">0 ثانية</p>
+                </div>
+            </div>
+
+            <div class="api-section">
+                <h2>📡 نقاط API المتاحة</h2>
+                <div class="api-grid">
+                    <div class="api-card">
+                        <span class="method get">GET</span>
+                        <code>/health</code>
+                        <span class="desc">صحة الخادم</span>
+                    </div>
+                    <div class="api-card">
+                        <span class="method get">GET</span>
+                        <code>/api/status</code>
+                        <span class="desc">حالة API</span>
+                    </div>
+                    <div class="api-card">
+                        <span class="method post">POST</span>
+                        <code>/api/auth/register</code>
+                        <span class="desc">تسجيل جديد</span>
+                    </div>
+                    <div class="api-card">
+                        <span class="method post">POST</span>
+                        <code>/api/auth/login</code>
+                        <span class="desc">تسجيل دخول</span>
+                    </div>
+                    <div class="api-card">
+                        <span class="method get">GET</span>
+                        <code>/api/investments</code>
+                        <span class="desc">الفرص الاستثمارية</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>🧪 اختبار الاتصال</h2>
+                <button id="testApiBtn" class="btn btn-primary">
+                    <i class="fas fa-play"></i> اختبار API
+                </button>
+                <div id="testResult" class="test-result"></div>
+            </div>
+
+            <div class="footer">
+                <p>© 2026 منصة استثمر لعائلتك - جاهز للرفع على Render</p>
+                <p class="small">🚀 تم النشر بنجاح</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
