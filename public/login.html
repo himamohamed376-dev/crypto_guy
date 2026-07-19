@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - منصة الاستثمار</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="/" class="back-home">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة للرئيسية
+                </a>
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>استثمر لعائلتك</span>
+                </div>
+                <h1>مرحباً بعودتك</h1>
+                <p>سجل الدخول للوصول إلى حسابك</p>
+            </div>
+
+            <form onsubmit="loginUser(event)" class="auth-form">
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-envelope"></i>
+                        البريد الإلكتروني
+                    </label>
+                    <input type="email" id="email" placeholder="example@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-lock"></i>
+                        كلمة المرور
+                    </label>
+                    <div class="password-input">
+                        <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                        <button type="button" onclick="togglePassword('password')" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group options">
+                    <label class="checkbox">
+                        <input type="checkbox" id="remember">
+                        تذكرني
+                    </label>
+                    <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </button>
+
+                <div class="auth-footer">
+                    ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // وظيفة لإظهار/إخفاء كلمة المرور
+        function togglePassword(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = input.parentElement.querySelector('.toggle-password i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+        window.togglePassword = togglePassword;
+    </script>
+</body>
+</html>
