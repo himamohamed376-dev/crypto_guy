@@ -138,4 +138,100 @@
                     </div>
                     
                     <div class="investment-item">
-                        <div
+                        <div class="investment-info">
+                            <h4>تطوير عقاري سكني</h4>
+                            <span class="investment-status active">نشط</span>
+                            <p>تم الاستثمار: 25,000 ريال</p>
+                        </div>
+                        <div class="investment-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                            <span>العائد المتوقع: 22%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="investment-item">
+                        <div class="investment-info">
+                            <h4>منصة تعليمية إلكترونية</h4>
+                            <span class="investment-status pending">قيد المراجعة</span>
+                            <p>تم الاستثمار: 8,000 ريال</p>
+                        </div>
+                        <div class="investment-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%"></div>
+                            </div>
+                            <span>العائد المتوقع: 25%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تاريخ العمليات -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>آخر العمليات</h2>
+                    <a href="#" class="btn btn-outline">عرض الكل</a>
+                </div>
+                
+                <div class="transactions-list">
+                    <div class="transaction-item">
+                        <div class="transaction-icon deposit">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="transaction-info">
+                            <h4>إيداع</h4>
+                            <span class="transaction-date">2026-07-18</span>
+                        </div>
+                        <div class="transaction-amount positive">+5,000 ريال</div>
+                    </div>
+                    
+                    <div class="transaction-item">
+                        <div class="transaction-icon investment">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="transaction-info">
+                            <h4>استثمار في الطاقة الشمسية</h4>
+                            <span class="transaction-date">2026-07-17</span>
+                        </div>
+                        <div class="transaction-amount negative">-15,000 ريال</div>
+                    </div>
+                    
+                    <div class="transaction-item">
+                        <div class="transaction-icon profit">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div class="transaction-info">
+                            <h4>أرباح شهرية</h4>
+                            <span class="transaction-date">2026-07-16</span>
+                        </div>
+                        <div class="transaction-amount positive">+2,250 ريال</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // التحقق من المصادقة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            // التحقق من وجود توكن
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            // عرض معلومات المستخدم
+            displayUserInfo();
+            
+            // إضافة زر تسجيل الخروج
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', logoutUser);
+            }
+        });
+    </script>
+</body>
+</html>
