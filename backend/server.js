@@ -1,70 +1,97 @@
+// =============================================
+// الملف الرئيسي للخادم - مع نظام تسجيل ودخول
+// =============================================
+
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const xss = require('xss-clean');
-const hpp = require('hpp');
+const path = require('path');
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
 
 // استيراد الرووتات
-const authRoutes = require('./routes/authRoutes');
-const investmentRoutes = require('./routes/investmentRoutes');
-const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./src/routes/authRoutes');
 
+// إنشاء تطبيق Express
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
-// إعدادات الأمان
-app.use(helmet());
+// ===== إعدادات الأمان =====
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:"],
+        },
+    },
+}));
+
+// ===== CORS =====
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL || '*',
     credentials: true
 }));
 
-// حماية من هجمات XSS
-app.use(xss());
-
-// حماية من Parameter Pollution
-app.use(hpp());
-
-// تحديد عدد الطلبات
+// ===== تحديد عدد الطلبات =====
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 دقيقة
-    max: 100, // 100 طلب لكل IP
-    message: 'تم تجاوز عدد الطلبات المسموح بها، يرجى المحاولة لاحقاً'
+    max: 100,
+    message: 'تم تجاوز عدد الطلبات المسموح بها'
 });
 app.use('/api', limiter);
 
-// معالجة البيانات
+// ===== معالجة البيانات =====
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-// حماية CSRF
+// ===== خدمة الملفات الثابتة =====
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ===== تسجيل الطلبات =====
 app.use((req, res, next) => {
-    res.header('X-XSS-Protection', '1; mode=block');
-    res.header('X-Content-Type-Options', 'nosniff');
-    res.header('X-Frame-Options', 'DENY');
-    res.header('Referrer-Policy', 'strict-origin-when-cross-origin');
+    console.log(`📝 ${req.method} ${req.url}`);
     next();
 });
 
-// الرووتات
+// ===== الرووتات =====
 app.use('/api/auth', authRoutes);
-app.use('/api/investments', investmentRoutes);
-app.use('/api/users', userRoutes);
 
-// معالجة الأخطاء
+// ===== صفحة رئيسية للاختبار =====
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// ===== التحقق من صحة الخادم =====
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
+// ===== معالجة الأخطاء =====
 app.use((err, req, res, next) => {
-    console.error('Error:', err.message);
+    console.error('❌ خطأ:', err.message);
     res.status(err.status || 500).json({
         error: err.message || 'حدث خطأ في الخادم'
     });
 });
 
-// تشغيل الخادم
+// ===== تشغيل الخادم =====
 app.listen(PORT, () => {
-    console.log(`🚀 الخادم يعمل على http://localhost:${PORT}`);
-    console.log('📌 الوضع:', process.env.NODE_ENV || 'development');
+    console.log('🚀 ==================================');
+    console.log(`✅ الخادم يعمل على المنفذ: ${PORT}`);
+    console.log(`🌐 الرابط: http://localhost:${PORT}`);
+    console.log(`🔧 الوضع: ${process.env.NODE_ENV || 'development'}`);
+    console.log('📅 التاريخ:', new Date().toLocaleString('ar-EG'));
+    console.log('🚀 ==================================');
 });
+
+module.exports = app;
