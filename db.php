@@ -1,74 +1,39 @@
 <?php
 /**
  * ملف الاتصال بقاعدة البيانات PostgreSQL على Aiven.io
- * باستخدام PDO و sslmode=require
+ * نسخة مبسطة بدون شهادة SSL (تستخدم sslmode=require فقط)
  */
 
-// ===== متغيرات الاتصال =====
-$host = 'your-host.aivencloud.com';        // ضع هنا الهوست من Aiven
-$port = '12345';                           // ضع هنا البورت من Aiven
-$dbname = 'defaultdb';                     // اسم قاعدة البيانات
-$user = 'avnadmin';                        // اسم المستخدم
-$password = 'your-password';               // كلمة المرور من Aiven
-
-// ===== إعدادات SSL =====
-$ssl_ca = '/path/to/ca.pem'; // مسار شهادة SSL (اختياري، يمكنك تعطيله)
+// ===== متغيرات الاتصال من Render Environment =====
+$host = getenv('DB_HOST') ?: 'your-host.aivencloud.com';
+$port = getenv('DB_PORT') ?: '12345';
+$dbname = getenv('DB_NAME') ?: 'defaultdb';
+$user = getenv('DB_USER') ?: 'avnadmin';
+$password = getenv('DB_PASSWORD') ?: 'your-password';
 
 try {
     // ===== إنشاء اتصال PDO مع SSL =====
     $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
     
-    // خيارات PDO
-    $options = [
+    $pdo = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
         PDO::ATTR_TIMEOUT => 30,
-    ];
+    ]);
     
-    // إضافة خيارات SSL إذا كانت الشهادة موجودة
-    if (file_exists($ssl_ca)) {
-        $options[PDO::PGSQL_ATTR_SSL_CA] = $ssl_ca;
-    }
-    
-    // إنشاء الاتصال
-    $pdo = new PDO($dsn, $user, $password, $options);
-    
-    // تعيين الترميز إلى UTF-8
+    // تعيين الترميز
     $pdo->exec("SET NAMES 'UTF8'");
     $pdo->exec("SET client_encoding TO 'UTF8'");
     
-    // رسالة نجاح (يمكنك إزالتها في الإنتاج)
-    // echo "✅ تم الاتصال بقاعدة البيانات بنجاح";
+    // إرجاع الاتصال للاستخدام
+    return $pdo;
     
 } catch (PDOException $e) {
-    // في حالة فشل الاتصال
+    // تسجيل الخطأ
     error_log("❌ فشل الاتصال بقاعدة البيانات: " . $e->getMessage());
-    die("⚠️ عذراً، حدث خطأ في الاتصال بقاعدة البيانات. يرجى المحاولة لاحقاً.");
+    
+    // عرض رسالة خطأ للمستخدم
+    die("⚠️ عذراً، لا يمكن الاتصال بقاعدة البيانات في الوقت الحالي.");
 }
-
-/**
- * دالة مساعدة لتنفيذ استعلامات آمنة
- */
-function executeQuery($pdo, $sql, $params = []) {
-    try {
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt;
-    } catch (PDOException $e) {
-        error_log("❌ خطأ في الاستعلام: " . $e->getMessage());
-        return false;
-    }
-}
-
-/**
- * دالة للحصول على اتصال قاعدة البيانات
- */
-function getDBConnection() {
-    global $pdo;
-    return $pdo;
-}
-
-// تصدير المتغيرات للاستخدام في ملفات أخرى
-return $pdo;
 ?>
