@@ -1,117 +1,102 @@
 <?php
 /**
- * ملف اختبار الاتصال بقاعدة البيانات
- * استخدم هذا الملف للتحقق من اتصالك قبل رفع الموقع
- * 
- * ⚠️ ملاحظة: احذف هذا الملف بعد التأكد من نجاح الاتصال
+ * اختبار الاتصال بين Render و Aiven
+ * شغل الملف من المتصفح: https://your-app.onrender.com/test_connection.php
  */
 
-// بدء تسجيل الأخطاء
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+echo "<h1>🔌 اختبار اتصال قاعدة البيانات</h1>";
+echo "<hr>";
 
-echo '<!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار الاتصال بقاعدة البيانات</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-        .success { color: green; border-right: 4px solid green; padding: 15px; background: #f0fff4; margin: 10px 0; }
-        .error { color: red; border-right: 4px solid red; padding: 15px; background: #fff5f5; margin: 10px 0; }
-        .info { color: blue; border-right: 4px solid blue; padding: 15px; background: #f0f8ff; margin: 10px 0; }
-        .box { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; font-family: monospace; }
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 8px; border-bottom: 1px solid #eee; }
-        td:first-child { font-weight: bold; color: #555; }
-        h1 { color: #333; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🔌 اختبار الاتصال بقاعدة البيانات</h1>
-        <hr>';
+// ===== 1. عرض متغيرات البيئة =====
+echo "<h3>📋 متغيرات البيئة في Render:</h3>";
+$vars = ['DB_HOST', 'DB_PORT', 'DB_USER', 'DB_NAME', 'DB_PASSWORD'];
+echo "<ul>";
+foreach ($vars as $var) {
+    $value = getenv($var);
+    if ($var == 'DB_PASSWORD') {
+        $value = $value ? '✅ موجودة (مخفية)' : '❌ غير موجودة';
+    }
+    echo "<li><strong>$var:</strong> " . ($value ?: '❌ غير موجود') . "</li>";
+}
+echo "</ul>";
+
+// ===== 2. محاولة الاتصال بقاعدة البيانات =====
+echo "<h3>🔄 محاولة الاتصال بـ Aiven...</h3>";
+
+$host = getenv('DB_HOST');
+$port = getenv('DB_PORT');
+$user = getenv('DB_USER');
+$password = getenv('DB_PASSWORD');
+$database = getenv('DB_NAME');
 
 try {
-    // استيراد ملف الاتصال
-    $db = require_once 'setup_db.php';
+    // إنشاء اتصال
+    $conn = new mysqli($host, $user, $password, $database, (int)$port);
     
-    if ($db && $db instanceof mysqli) {
-        echo '<div class="success">✅ تم الاتصال بقاعدة البيانات بنجاح!</div>';
-        
-        // عرض معلومات الاتصال
-        echo '<h3>📊 معلومات الاتصال</h3>';
-        echo '<div class="box">';
-        echo "<table>";
-        echo "<tr><td>المضيف</td><td>" . htmlspecialchars(getenv('DB_HOST')) . "</td></tr>";
-        echo "<tr><td>المنفذ</td><td>" . htmlspecialchars(getenv('DB_PORT')) . "</td></tr>";
-        echo "<tr><td>قاعدة البيانات</td><td>" . htmlspecialchars(getenv('DB_NAME')) . "</td></tr>";
-        echo "<tr><td>المستخدم</td><td>" . htmlspecialchars(getenv('DB_USER')) . "</td></tr>";
-        echo "<tr><td>إصدار MySQL</td><td>" . $db->server_info . "</td></tr>";
-        echo "<tr><td>حالة SSL</td><td>" . ($db->ssl_cipher ? '🔒 مفعل' : '🔓 غير مفعل') . "</td></tr>";
-        echo "</table>";
-        echo '</div>';
-        
-        // اختبار استعلام بسيط
-        echo '<h3>🧪 اختبار الاستعلام</h3>';
-        $result = $db->query("SELECT NOW() as now, VERSION() as version, DATABASE() as current_db, USER() as current_user");
-        
-        if ($result) {
-            $row = $result->fetch_assoc();
-            echo '<div class="info">✅ الاستعلام ناجح</div>';
-            echo '<div class="box">';
-            echo "<table>";
-            echo "<tr><td>وقت الخادم</td><td>" . $row['now'] . "</td></tr>";
-            echo "<tr><td>إصدار MySQL</td><td>" . $row['version'] . "</td></tr>";
-            echo "<tr><td>قاعدة البيانات الحالية</td><td>" . $row['current_db'] . "</td></tr>";
-            echo "<tr><td>المستخدم الحالي</td><td>" . $row['current_user'] . "</td></tr>";
-            echo "</table>";
-            echo '</div>';
-            $result->free();
-        }
-        
-        // عرض جميع الجداول
-        echo '<h3>📋 الجداول في قاعدة البيانات</h3>';
-        $tables = $db->query("SHOW TABLES");
-        
-        if ($tables && $tables->num_rows > 0) {
-            echo '<div class="box">';
-            echo '<ul>';
-            while ($row = $tables->fetch_row()) {
-                echo "<li>📄 " . htmlspecialchars($row[0]) . "</li>";
-            }
-            echo '</ul>';
-            echo '</div>';
-            $tables->free();
-        } else {
-            echo '<div class="info">ℹ️ لا توجد جداول في قاعدة البيانات</div>';
-        }
-        
-        // إغلاق الاتصال
-        $db->close();
-        echo '<div class="info">🔒 تم إغلاق الاتصال بقاعدة البيانات</div>';
-        
-    } else {
-        echo '<div class="error">❌ فشل في إنشاء اتصال mysqli</div>';
+    if ($conn->connect_error) {
+        throw new Exception("❌ فشل الاتصال: " . $conn->connect_error);
     }
     
+    echo "<div style='background:#d4edda; padding:15px; border-radius:10px; color:#155724;'>";
+    echo "✅ <strong>تم الاتصال بقاعدة البيانات بنجاح!</strong><br>";
+    echo "📦 إصدار MySQL: " . $conn->server_info . "<br>";
+    echo "🔒 SSL: " . ($conn->ssl_cipher ? '✅ مفعل' : '❌ غير مفعل');
+    echo "</div>";
+    
+    // ===== 3. عرض الجداول =====
+    echo "<h3>📊 الجداول في قاعدة البيانات:</h3>";
+    $result = $conn->query("SHOW TABLES");
+    
+    if ($result && $result->num_rows > 0) {
+        echo "<ul>";
+        $tables = [];
+        while ($row = $result->fetch_row()) {
+            $tables[] = $row[0];
+            echo "<li>📄 " . $row[0] . "</li>";
+        }
+        echo "</ul>";
+        echo "<p>✅ عدد الجداول: " . count($tables) . "</p>";
+        
+        // عرض محتوى جدول users
+        if (in_array('users', $tables)) {
+            echo "<h3>👤 اختبار جدول users:</h3>";
+            $users = $conn->query("SELECT id, full_name, email, vip_level FROM users LIMIT 5");
+            if ($users && $users->num_rows > 0) {
+                echo "<table border='1' cellpadding='8' style='border-collapse: collapse;'>";
+                echo "<tr><th>ID</th><th>الاسم</th><th>البريد</th><th>VIP</th></tr>";
+                while ($row = $users->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . htmlspecialchars($row['full_name']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                    echo "<td>" . $row['vip_level'] . "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+            } else {
+                echo "<p>⚠️ لا يوجد مستخدمين في الجدول</p>";
+            }
+        }
+        
+    } else {
+        echo "<p>⚠️ لا توجد جداول في قاعدة البيانات</p>";
+        echo "<p>📝 قم بتشغيل <strong>install_tables.php</strong> لإنشاء الجداول</p>";
+    }
+    
+    // ===== 4. إغلاق الاتصال =====
+    $conn->close();
+    echo "<p>🔒 تم إغلاق الاتصال.</p>";
+    
 } catch (Exception $e) {
-    echo '<div class="error">❌ خطأ: ' . htmlspecialchars($e->getMessage()) . '</div>';
-    echo '<div class="info">📝 تأكد من:';
-    echo '<ul>';
-    echo '<li>متغيرات البيئة مضبوطة بشكل صحيح في Render</li>';
-    echo '<li>مضيف Aiven صحيح (يجب أن ينتهي بـ .aivencloud.com)</li>';
-    echo '<li>المنفذ صحيح (يجب أن يكون رقمياً)</li>';
-    echo '<li>شهادة SSL موجودة في مجلد certs/ (إذا كنت تستخدم SSL)</li>';
-    echo '</ul></div>';
+    echo "<div style='background:#f8d7da; padding:15px; border-radius:10px; color:#721c24;'>";
+    echo "❌ <strong>خطأ:</strong> " . $e->getMessage() . "<br>";
+    echo "<br>💡 <strong>حلول مقترحة:</strong>";
+    echo "<ul>";
+    echo "<li>تأكد من صحة المتغيرات في Render</li>";
+    echo "<li>تأكد من أن قاعدة البيانات على Aiven شغالة</li>";
+    echo "<li>تأكد من أن عنوان المضيف صحيح (ينتهي بـ .aivencloud.com)</li>";
+    echo "<li>تأكد من أن كلمة السر صحيحة</li>";
+    echo "</ul>";
+    echo "</div>";
 }
-
-echo '<hr>';
-echo '<div style="text-align: center; color: #888; margin-top: 20px;">';
-echo '🚀 تم الاختبار في ' . date('Y-m-d H:i:s');
-echo '</div>';
-
-echo '</div></body></html>';
-?>
+?>س
