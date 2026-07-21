@@ -1,16 +1,21 @@
 <?php
-// جلب بيانات الاتصال من متغيّرات البيئة في Render
+// جلب البيانات مع التأكد من تحويل البورت إلى رقم صحيح (int)
 $host = getenv('DB_HOST');
 $user = getenv('DB_USER');
 $pass = getenv('DB_PASSWORD');
 $db   = getenv('DB_NAME');
-$port = getenv('DB_PORT');
+$port = (int)getenv('DB_PORT');
+
+// إنشاء كائن الاتصال
+$conn = mysqli_init();
+
+// تمكين خيار SSL المطلوب لإجبار الاتصال الآمن مع Aiven
+$conn->ssl_set(NULL, NULL, NULL, NULL, NULL);
+$conn->options(MYSQLI_OPT_CONNECT_TIMEOUT, 10);
 
 // الاتصال بقاعدة البيانات
-$conn = new mysqli($host, $user, $pass, $db, $port);
-
-if ($conn->connect_error) {
-    die("فشل الاتصال بقاعدة البيانات: " . $conn->connect_error);
+if (!$conn->real_connect($host, $user, $pass, $db, $port, NULL, MYSQLI_CLIENT_SSL)) {
+    die("فشل الاتصال بقاعدة البيانات: " . mysqli_connect_error());
 }
 
 // ضبط الترميز لدعم اللغة العربية
@@ -192,7 +197,7 @@ CREATE TABLE referrals (
     INDEX idx_referrals_referrer_id (referrer_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-// إدخال البيانات الافتراضية
+-- إدخال البيانات الافتراضية
 INSERT INTO vip_levels (level_name, min_deposit, bonus_rate, withdrawal_limit, profit_boost, priority_support, early_access) VALUES
 ('bronze', 0.00000000, 0.00, 1000.00000000, 0.00, FALSE, FALSE),
 ('silver', 1000.00000000, 2.00, 5000.00000000, 2.00, FALSE, FALSE),
@@ -215,11 +220,11 @@ INSERT INTO users (full_name, email, password_hash, vip_level, is_active, email_
 ('مدير النظام', 'admin@cryptoinvest.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'diamond', TRUE, TRUE);
 ";
 
-// تنفيذ جميع الاستعلامات
+// تنفيذ الاستعلامات
 if ($conn->multi_query($sql)) {
     echo "<div style='font-family: sans-serif; text-align: center; padding: 50px;'>";
     echo "<h1 style='color: #2e7d32;'>تم إنشاء جميع الجداول والبيانات بنجاح! 🎉</h1>";
-    echo "<p>قاعدة البيانات الآن جاهزة للعمل على Render.</p>";
+    echo "<p>قاعدة البيانات على Aiven جاهزة ومتصلة بنجاح عبر SSL.</p>";
     echo "</div>";
 } else {
     echo "<h1>حدث خطأ أثناء إعداد قاعدة البيانات:</h1> " . $conn->error;
