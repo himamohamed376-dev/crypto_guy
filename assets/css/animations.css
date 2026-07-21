@@ -1,0 +1,584 @@
+/**
+ * =============================================
+ * ملف التحريك والأنيميشن - منصة الاستثمار
+ * Animations & Effects - Investment Platform
+ * =============================================
+ */
+
+/* ===== 1. الأنيميشن الأساسية ===== */
+
+/* تحريك العنصر من الأسفل */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* تحريك العنصر من الأعلى */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* تحريك العنصر من اليمين */
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* تحريك العنصر من اليسار */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ظهور مع تكبير */
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ظهور مع تصغير */
+@keyframes zoomOut {
+    from {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== 2. أنيميشن الخلفية ===== */
+
+/* خلفية متحركة */
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* دوران الخلفية */
+@keyframes rotateBG {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* موجات متحركة */
+@keyframes wave {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(10px);
+    }
+    100% {
+        transform: translateX(0) translateY(0);
+    }
+}
+
+/* ===== 3. أنيميشن البطاقات ===== */
+
+/* بطاقة تطفو */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* بطاقة ترتفع */
+@keyframes lift {
+    0% {
+        transform: translateY(0);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    100% {
+        transform: translateY(-15px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+}
+
+/* ===== 4. أنيميشن النصوص ===== */
+
+/* كتابة متحركة */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* وميض المؤشر */
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+/* نص متحرك */
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* ===== 5. أنيميشن الأيقونات ===== */
+
+/* دوران الأيقونة */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* نبض الأيقونة */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* ارتداد الأيقونة */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* ===== 6. أنيميشن الأرقام ===== */
+
+/* عد الأرقام */
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== 7. أنيميشن التحميل ===== */
+
+/* متحرك تحميل */
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* نقاط تحميل */
+@keyframes loadingDots {
+    0% {
+        content: '.';
+    }
+    33% {
+        content: '..';
+    }
+    66% {
+        content: '...';
+    }
+}
+
+/* شريط تحميل */
+@keyframes progressBar {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* ===== 8. أنيميشن الإشعارات ===== */
+
+/* إشعار منزلق */
+@keyframes slideInNotification {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* إشعار منزلق للخارج */
+@keyframes slideOutNotification {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ===== 9. أنيميشن الأزرار ===== */
+
+/* زر نابض */
+@keyframes buttonPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* زر مع تموج */
+@keyframes ripple {
+    from {
+        transform: scale(0);
+        opacity: 1;
+    }
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ===== 10. أنيميشن القوائم ===== */
+
+/* قائمة منزلقة */
+@keyframes slideDownMenu {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* =============================================
+   CLASSES للاستخدام المباشر
+   ============================================= */
+
+/* ===== فئات الأنيميشن الأساسية ===== */
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.8s ease forwards;
+}
+
+.animate-fade-in-right {
+    animation: fadeInRight 0.8s ease forwards;
+}
+
+.animate-fade-in-left {
+    animation: fadeInLeft 0.8s ease forwards;
+}
+
+.animate-zoom-in {
+    animation: zoomIn 0.8s ease forwards;
+}
+
+.animate-zoom-out {
+    animation: zoomOut 0.8s ease forwards;
+}
+
+/* ===== فئات التأخير ===== */
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+.delay-7 { animation-delay: 0.7s; }
+.delay-8 { animation-delay: 0.8s; }
+.delay-9 { animation-delay: 0.9s; }
+.delay-10 { animation-delay: 1s; }
+
+/* ===== فئات التكرار ===== */
+
+.infinite {
+    animation-iteration-count: infinite;
+}
+
+.pulse-infinite {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.float-infinite {
+    animation: float 3s ease-in-out infinite;
+}
+
+.bounce-infinite {
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.spin-infinite {
+    animation: spin 3s linear infinite;
+}
+
+/* =============================================
+   تأثيرات إضافية
+   ============================================= */
+
+/* ===== تأثير التوهج ===== */
+.glow-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.glow-effect::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(247, 147, 26, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.glow-effect:hover::before {
+    opacity: 1;
+}
+
+/* ===== تأثير الشفافية ===== */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.glass-effect:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== تأثير النص المتدرج ===== */
+.gradient-text {
+    background: linear-gradient(135deg, #f7931a, #f7b731, #f7931a);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+}
+
+/* ===== تأثير الخط المتوهج ===== */
+.neon-text {
+    color: #f7931a;
+    text-shadow: 
+        0 0 10px rgba(247, 147, 26, 0.3),
+        0 0 20px rgba(247, 147, 26, 0.2),
+        0 0 40px rgba(247, 147, 26, 0.1);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* =============================================
+   تأثيرات عند التمرير (Scroll)
+   ============================================= */
+
+/* العناصر تظهر عند التمرير */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s ease;
+}
+
+.scroll-reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scroll-reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.8s ease;
+}
+
+.scroll-reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scroll-reveal-scale {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.8s ease;
+}
+
+.scroll-reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* =============================================
+   تأثيرات Hover للبطاقات
+   ============================================= */
+
+.hover-lift {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.hover-glow {
+    transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 30px rgba(247, 147, 26, 0.2);
+    border-color: rgba(247, 147, 26, 0.5);
+}
+
+.hover-rotate {
+    transition: all 0.5s ease;
+}
+
+.hover-rotate:hover {
+    transform: rotate(5deg) scale(1.05);
+}
+
+.hover-scale {
+    transition: all 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.08);
+}
+
+/* =============================================
+   تأثيرات للهواتف المحمولة
+   ============================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =============================================
+   أداة تحميل الموقع (Preloader)
+   ============================================= */
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0f0c29;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: all 0.8s ease;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.preloader-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top: 4px solid #f7931a;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.preloader-spinner::before {
+    content: '🪙';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+}
